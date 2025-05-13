@@ -14,6 +14,7 @@ cv::Mat loadImage(int pilihan) {
 
   if (pilihan == 2) {
     cv::imshow("Original Image", image);
+    cv::waitKey(1); // Ensure the image window is displayed
     std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";
   }
   
@@ -36,18 +37,19 @@ int main() {
         std::cout << "1. Hasil akhir\n";
         std::cout << "2. Per langkah\n";
         std::cout << "Masukan pilihan: ";
-        std::cin >> pilihan;
+        int subpilihan;
+        std::cin >> subpilihan;
 
-        if (pilihan == 1 || pilihan == 2) {
-          cv::Mat image = loadImage(pilihan);
+        if (subpilihan == 1 || subpilihan == 2) {
+          cv::Mat image = loadImage(subpilihan);
           if (image.empty()) {
             std::cerr << "Gambar tidak valid. Kembali ke menu utama.\n";
             break;
           }
 
-          grayscale(image, pilihan);
-          edgeDetection(image, pilihan);
-          noiseFiltering(image, pilihan);
+          grayscale(image, subpilihan);
+          edgeDetection(image, subpilihan);
+          noiseFiltering(image, subpilihan);
 
           std::cout << "Tekan ESC pada gambar untuk kembali ke menu utama.\n";
           

@@ -2,7 +2,12 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-bool NoiseFiltering(const cv::Mat& image, int pilihan) {
+bool noiseFiltering(const cv::Mat& image, int pilihan) {
+  if (image.empty()) {
+    std::cerr << "Error: Input image is empty!" << std::endl;
+    return false;
+  }
+
   // Create a copy of the original image
   cv::Mat filteredImage = image.clone();
 

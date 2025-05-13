@@ -3,6 +3,5 @@
 #include "header.hpp"
 
 bool charDetection(const cv::Mat& image, int pilihan) {
-
   return true;
 }

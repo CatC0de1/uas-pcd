@@ -16,3 +16,8 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release `
   -B build
 
 rebuild : Remove-Item -Recurse -Force .\build\
+
+generate dan konfigurasi build(CMakeLists):
+cmake -S . -B build
+
+contoh path gambar = "./images/kucing1.png"
