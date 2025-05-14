@@ -10,14 +10,13 @@ cara membuat project dengan opencv:
 
 5. compile & generate release : cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -B build
 
-6. static linking : 
+6. static linking (opsional) : 
 cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release `
   -DCMAKE_EXE_LINKER_FLAGS="-static -static-libgcc -static-libstdc++" `
   -B build
 
-rebuild : Remove-Item -Recurse -Force .\build\
+- rebuild : Remove-Item -Recurse -Force .\build\
 
-generate dan konfigurasi build(CMakeLists):
-cmake -S . -B build
+- generate dan konfigurasi build(CMakeLists) termasuk penambahan/penghapusan file cpp: cmake -S . -B build
 
-contoh path gambar = "./images/kucing1.png"
+- contoh path gambar = "./images/plat1.webp"
