@@ -2,24 +2,18 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-bool edgeDetection(const cv::Mat& image, int pilihan) {
-  if (image.empty()) {
-    std::cerr << "Error: Input image is empty!" << std::endl;
-    return false;
-  }
+cv::Mat edgeDetection(const cv::Mat& image, int pilihan) {
 
-  // Create a copy of the original image
-  cv::Mat edgeImage = image.clone();
+  cv::Mat edgeImage;
 
-  // Convert the image to grayscale
-  cv::Mat grayImage;
-  cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);
+  double lowThreshold = 50; // Lower threshold for Canny edge detection
+  double highThreshold = 150; // Upper threshold for Canny edge detection
 
   // Apply Canny edge detection
-  cv::Canny(grayImage, edgeImage, 100, 200);
+  cv::Canny(image, edgeImage, lowThreshold, highThreshold);
 
   // Display the edge-detected image if the user chooses option 2
   if (pilihan == 2) cv::imshow("Edge Detected Image", edgeImage);
 
-  return true;
+  return edgeImage;
 }

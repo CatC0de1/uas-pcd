@@ -3,9 +3,9 @@
 
 #include <opencv2/opencv.hpp>
 
-bool grayscale(const cv::Mat& image, int pilihan);
-bool edgeDetection(const cv::Mat& image, int pilihan);
-bool noiseFiltering(const cv::Mat& image, int pilihan);
-bool charDetection(const cv::Mat& image, int pilihan);
+cv::Mat grayscale(const cv::Mat& image, int pilihan);
+cv::Mat edgeDetection(const cv::Mat& image, int pilihan);
+cv::Mat noiseFiltering(const cv::Mat& image, int pilihan);
+cv::Mat charDetection(const cv::Mat& image, int pilihan);
 
 #endif

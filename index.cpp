@@ -2,7 +2,7 @@
 #include <iostream>
 #include "./components/header.hpp"
 
-cv::Mat loadImage(int pilihan) {
+cv::Mat loadImage() {
   std::string path;
   std::cout << "Masukkan nama file gambar: ";
   std::cin >> path;
@@ -12,11 +12,7 @@ cv::Mat loadImage(int pilihan) {
     return cv::Mat();
   }
 
-  if (pilihan == 2) {
-    cv::imshow("Original Image", image);
-    cv::waitKey(1); // Ensure the image window is displayed
-    std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";
-  }
+  cv::imshow("Original Image", image);
   
   return image;
 }
@@ -25,7 +21,7 @@ int main() {
   int pilihan;
 
   while (true) {
-    std::cout << "=== Pengenalan Plat Kendaraan untuk Identifikasi Otomatis ===\n";
+    std::cout << "\n=== Pengenalan Plat Kendaraan untuk Identifikasi Otomatis ===\n";
     std::cout << "1. Mulai Program\n";
     std::cout << "2. Keluar\n";
     std::cout << "Masukkan pilihan: ";
@@ -33,7 +29,7 @@ int main() {
 
     switch (pilihan) {
       case 1: {
-        std::cout << "Pilih opsi:\n";
+        std::cout << "\nPilih opsi:\n";
         std::cout << "1. Hasil akhir\n";
         std::cout << "2. Per langkah\n";
         std::cout << "Masukan pilihan: ";
@@ -41,17 +37,13 @@ int main() {
         std::cin >> subpilihan;
 
         if (subpilihan == 1 || subpilihan == 2) {
-          cv::Mat image = loadImage(subpilihan);
-          if (image.empty()) {
-            std::cerr << "Gambar tidak valid. Kembali ke menu utama.\n";
-            break;
-          }
-
-          grayscale(image, subpilihan);
-          edgeDetection(image, subpilihan);
-          noiseFiltering(image, subpilihan);
-
-          std::cout << "Tekan ESC pada gambar untuk kembali ke menu utama.\n";
+          cv::Mat image = loadImage();
+          cv::Mat grayImage = grayscale(image, subpilihan);
+          cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan);
+          cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan);
+          
+          std::cout << "\nTekan ESC pada gambar untuk kembali ke menu utama.\n";
+          std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";
           
           while (true) {
             int key = cv::waitKey(50);

@@ -2,20 +2,19 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-bool noiseFiltering(const cv::Mat& image, int pilihan) {
-  if (image.empty()) {
-    std::cerr << "Error: Input image is empty!" << std::endl;
-    return false;
-  }
+cv::Mat noiseFiltering(const cv::Mat& image, int pilihan) {
 
-  // Create a copy of the original image
-  cv::Mat filteredImage = image.clone();
+  cv::Mat filteredImage;
 
-  // Apply Gaussian blur to the image
-  cv::GaussianBlur(image, filteredImage, cv::Size(5, 5), 0);
+  int d = 9; // Diameter of the pixel neighborhood
+  double sigmaColor = 75; // Filter sigma in color space
+  double sigmaSpace = 75; // Filter sigma in coordinate space
+
+  // Apply bilateral filter
+  cv::bilateralFilter(image, filteredImage, d, sigmaColor, sigmaSpace);
 
   // Display the filtered image if the user chooses option 2
   if (pilihan == 2) cv::imshow("Filtered Image", filteredImage);
 
-  return true;
+  return filteredImage;
 }
