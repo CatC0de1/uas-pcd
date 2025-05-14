@@ -41,7 +41,7 @@ int main() {
           cv::Mat grayImage = grayscale(image, subpilihan);
           cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan);
           cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan);
-          std::vector<std::vector<cv::Point>> contours = findContour(edgeImage, subpilihan);
+          std::vector<cv::Mat> contours = findContour(edgeImage, filteredImage, subpilihan);
           
           std::cout << "\nTekan ESC pada gambar untuk kembali ke menu utama.\n";
           std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";
