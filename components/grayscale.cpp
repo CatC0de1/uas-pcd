@@ -5,7 +5,8 @@
 // Function to convert an image to grayscale
 cv::Mat grayscale(const cv::Mat& image, int pilihan) {
 
-  // Convert the image to grayscale
+  // Convert the image to grayscale using Weighted Average
+  // 0.299*R + 0.587*G + 0.114*B
   cv::Mat grayImage;
   cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);
 

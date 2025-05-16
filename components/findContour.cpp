@@ -4,14 +4,13 @@
 
 cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan) {
   std::vector<std::vector<cv::Point>> contours;
-  std::vector<cv::Vec4i> hierarchy;
   cv::Mat ROI; // Region Of Interest
 
   // Convert the grayscale filtered image to BGR for color display
   cv::Mat displayImage;
   cv::cvtColor(filtered, displayImage, cv::COLOR_GRAY2BGR);
 
-  cv::findContours(edge, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+  cv::findContours(edge, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
   for (size_t i = 0; i < contours.size(); ++i) {
     double area = cv::contourArea(contours[i]);
