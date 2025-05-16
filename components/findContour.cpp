@@ -2,11 +2,10 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-std::vector<cv::Mat> findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan) {
+cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan) {
   std::vector<std::vector<cv::Point>> contours;
   std::vector<cv::Vec4i> hierarchy;
-  std::vector<std::vector<cv::Point>> validContours;
-  std::vector<cv::Mat> resultROIs;
+  cv::Mat ROI; // Region Of Interest
 
   // Convert the grayscale filtered image to BGR for color display
   cv::Mat displayImage;
@@ -22,30 +21,25 @@ std::vector<cv::Mat> findContour(const cv::Mat& edge, const cv::Mat& filtered, i
     cv::approxPolyDP(contours[i], approx, 0.02 * cv::arcLength(contours[i], true), true);
 
     if (approx.size() == 4 && cv::isContourConvex(approx)) {
-      validContours.push_back(approx);
-
       cv::Rect rect = cv::boundingRect(approx);
       
-      // Add aspect ratio check if needed
+      // Add aspect ratio check
       double aspectRatio = static_cast<double>(rect.width) / rect.height;
       if (aspectRatio < 2.0 || aspectRatio > 6.0) continue;
 
-      // Save the ROI to implement on tesseract
-      resultROIs.push_back(filtered(rect));
+      // Clone untuk copy data
+      ROI = filtered(rect).clone();
 
       // Highlight the rectangle in red on the color image
       cv::rectangle(displayImage, rect, cv::Scalar(0, 0, 255), 2);
+
+      break;
     }
   }
 
-  if (pilihan == 2) {
-    cv::imshow("Highlight Plat", displayImage);
+  if (pilihan == 2) cv::imshow("Highlight Plat", displayImage);
 
-    for (size_t i = 0; i < resultROIs.size(); ++i) {
-      std::string winName = "ROI " + std::to_string(i);
-      cv::imshow(winName, resultROIs[i]);
-    }
-  }
+  if (!ROI.empty()) cv::imshow("ROI", ROI);
 
-  return resultROIs;
+  return ROI;
 }
