@@ -6,7 +6,7 @@ cv::Mat loadImage() {
   std::string path;
   std::cout << "Masukkan nama file gambar: ";
   std::cin >> path;
-  cv::Mat image = cv::imread(path);
+  cv::Mat image = cv::imread("./images/" + path + ".jpeg");
   if (image.empty()) {
     std::cerr << "Gagal memuat gambar: " << path << std::endl;
     return cv::Mat();
@@ -39,8 +39,33 @@ int main() {
         if (subpilihan == 1 || subpilihan == 2) {
           cv::Mat image = loadImage();
           cv::Mat grayImage = grayscale(image, subpilihan);
-          cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan);
-          cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan);
+
+          int d;
+          std::cout << "\nMasukan parameter diameter (bilangan bulat positif, default=9) : ";
+          std::cin >> d;
+
+          double sigmaColor;
+          std::cout << "Masukan parameter sigma color (0-255, default=75) : ";
+          std::cin >> sigmaColor;
+
+          double sigmaSpace;
+          std::cout << "Masukan parameter sigma space (bilangan bulat positif, default=75) : ";
+          std::cin >> sigmaSpace;
+
+          cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan, d, sigmaColor, sigmaSpace);
+
+
+          double lowThreshold;
+          std::cout << "\nMasukan parameter low threshold (0-255, default=50) : ";
+          std::cin >> lowThreshold;
+
+          double highThreshold;
+          std::cout << "Masukan parameter high threshold (0-255, default=150) : ";
+          std::cin >> highThreshold;
+
+          cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan, lowThreshold, highThreshold);
+
+
           cv::Mat contours = findContour(edgeImage, filteredImage, subpilihan);
           
           std::cout << "\nTekan ESC pada gambar untuk kembali ke menu utama.\n";
