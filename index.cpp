@@ -19,6 +19,13 @@ cv::Mat loadImage() {
 
 int main() {
   int pilihan;
+  int subpilihan;
+
+  int d;
+  double sigmaColor;
+  double sigmaSpace;
+  double lowThreshold;
+  double highThreshold;
 
   while (true) {
     std::cout << "\n=== Pengenalan Plat Kendaraan untuk Identifikasi Otomatis ===\n";
@@ -33,38 +40,25 @@ int main() {
         std::cout << "1. Hasil akhir\n";
         std::cout << "2. Per langkah\n";
         std::cout << "Masukan pilihan: ";
-        int subpilihan;
         std::cin >> subpilihan;
 
         if (subpilihan == 1 || subpilihan == 2) {
           cv::Mat image = loadImage();
           cv::Mat grayImage = grayscale(image, subpilihan);
 
-          int d;
           std::cout << "\nMasukan parameter diameter (bilangan bulat positif, default=9) : ";
           std::cin >> d;
-
-          double sigmaColor;
           std::cout << "Masukan parameter sigma color (0-255, default=75) : ";
           std::cin >> sigmaColor;
-
-          double sigmaSpace;
           std::cout << "Masukan parameter sigma space (bilangan bulat positif, default=75) : ";
           std::cin >> sigmaSpace;
-
           cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan, d, sigmaColor, sigmaSpace);
 
-
-          double lowThreshold;
           std::cout << "\nMasukan parameter low threshold (0-255, default=50) : ";
           std::cin >> lowThreshold;
-
-          double highThreshold;
           std::cout << "Masukan parameter high threshold (0-255, default=150) : ";
           std::cin >> highThreshold;
-
           cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan, lowThreshold, highThreshold);
-
 
           cv::Mat contours = findContour(edgeImage, filteredImage, subpilihan);
           
