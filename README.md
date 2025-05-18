@@ -17,8 +17,7 @@ This project demonstrates a simple license plate recognition system using OpenCV
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/license-plate-recognition.git
-   cd license-plate-recognition
+   git clone https://github.com/CatC0de1/uas-pcd.git
 2. Create a build directory and generate the      
    build files:
    ```bash
@@ -28,4 +27,4 @@ This project demonstrates a simple license plate recognition system using OpenCV
    cmake --build build
 4. Run the executable:
    ```bash
-   ./build/OpenCVExample.exe
+   ./build/App.exe

@@ -1,22 +1,29 @@
-cara membuat project dengan opencv:
+cara membuat project dan debugging dengan opencv:
 
-1. buat CMakeLists.txt
+- buat CMakeLists.txt dengan isi seperti yang tertera
 
-2. compile & generate debug : cmake -G "MinGW Makefiles" -B build
+- compile & generate debug : 
+  cmake -G "MinGW Makefiles" -B build
 
-3. compile : cmake --build build
+- compile : 
+  cmake --build build
 
-4. execute : build\NamaFile
+- execute : 
+  build\NamaFile
 
-5. compile & generate release : cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -B build
+- compile & generate release : 
+  cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -B build
 
-6. static linking (opsional) : 
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release `
-  -DCMAKE_EXE_LINKER_FLAGS="-static -static-libgcc -static-libstdc++" `
-  -B build
+- static linking (opsional) : 
+  cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release `
+    -DCMAKE_EXE_LINKER_FLAGS="-static -static-libgcc -static-libstdc++" `
+    -B build
 
-- rebuild : Remove-Item -Recurse -Force .\build\
+- rebuild : 
+  Remove-Item -Recurse -Force .\build\
 
-- generate dan konfigurasi build(CMakeLists) termasuk penambahan/penghapusan file cpp: cmake -S . -B build
+- generate dan konfigurasi build(CMakeLists) termasuk penambahan/penghapusan file cpp: 
+  cmake -S . -B build
 
-- contoh path gambar = "./images/plat1.webp"
+- contoh input path gambar :
+  plat1
