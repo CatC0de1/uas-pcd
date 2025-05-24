@@ -28,3 +28,7 @@ This project demonstrates a simple license plate recognition system using OpenCV
 4. Run the executable:
    ```bash
    ./build/App.exe
+   ```
+
+</br></br>
+This project made by Iyan Zuli Armanda & Muhammad Rafi Rafsanjani for digital image proccesing task in University State Surabaya.

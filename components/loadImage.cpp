@@ -13,7 +13,7 @@ cv::Mat loadImage(std::string path, int pilihan, std::string dir) {
   
   if (pilihan == 2) {
     std::filesystem::create_directories(dir);
-    cv::imwrite(dir + "/0_originalImage.jpg", image);
+    cv::imwrite(dir + "0_originalImage.jpg", image);
   } 
   
   return image;

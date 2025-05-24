@@ -56,7 +56,7 @@ int main() {
           cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan, lowThreshold, highThreshold, dir, paramNF);
 
           std::string paramNF_ED = paramNF + "_" + std::to_string((int)lowThreshold) + "-" + std::to_string((int)highThreshold);
-          cv::Mat contours = findContour(edgeImage, filteredImage, subpilihan, dir, paramNF_ED);
+          cv::Mat contours = findContour(edgeImage, grayImage, subpilihan, dir, paramNF_ED);
           
           std::cout << "\nTekan ESC pada gambar untuk kembali ke menu utama.\n";
           std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";

@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan, std::string dir, std::string params) {
+cv::Mat findContour(const cv::Mat& edge, const cv::Mat& grayscale, int pilihan, std::string dir, std::string params) {
   // Vector to store all detected contours
   std::vector<std::vector<cv::Point>> contours;
   
@@ -11,7 +11,7 @@ cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan, s
   cv::findContours(edge, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
 
   cv::Mat displayImage;
-  if (pilihan == 2) cv::cvtColor(filtered, displayImage, cv::COLOR_GRAY2BGR); // Convert to BGR color for drawing colored rectangles
+  if (pilihan == 2) cv::cvtColor(grayscale, displayImage, cv::COLOR_GRAY2BGR); // Convert to BGR color for drawing colored rectangles
 
   for (const auto& contour : contours) {
     // Skip small contours (noise) with area less than 100 pixels
@@ -37,8 +37,8 @@ cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan, s
           cv::imwrite(dir + "4_highlightedPlat" + params + ".jpg", displayImage);
         }
         
-        // Extract the Region of Interest (ROI) from the filtered image
-        cv::Mat ROI = filtered(rect).clone();
+        // Extract the Region of Interest (ROI) from the grayscale image
+        cv::Mat ROI = grayscale(rect).clone();
         
         // Display the ROI if it's not empty
         if (!ROI.empty()) {
