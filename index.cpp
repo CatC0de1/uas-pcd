@@ -1,40 +1,16 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
-#include <filesystem>
 #include "./components/header.hpp"
-
-cv::Mat loadImage(std::string path, int pilihan, std::string dir) {
-  cv::Mat image = cv::imread("./images/" + path + ".jpeg");
-  if (image.empty()) {
-    std::cerr << "Gagal memuat gambar: " << path << std::endl;
-    return cv::Mat();
-  }
-
-  cv::imshow("Original Image", image);
-  
-  if (pilihan == 2) {
-    std::filesystem::create_directories(dir);
-    cv::imwrite(dir + "/0_originalImage.jpg", image);
-  } 
-  
-  return image;
-}
+#include "./components/params.hpp"
 
 int main() {
-  int pilihan;
-  int subpilihan;
-
-  int d;
-  double sigmaColor;
-  double sigmaSpace;
-  double lowThreshold;
-  double highThreshold;
 
   while (true) {
     std::cout << "\n=== Pengenalan Plat Kendaraan untuk Identifikasi Otomatis ===\n";
     std::cout << "1. Mulai Program\n";
     std::cout << "2. Keluar\n";
     std::cout << "Masukkan pilihan: ";
+    int pilihan;
     std::cin >> pilihan;
 
     switch (pilihan) {
@@ -43,14 +19,15 @@ int main() {
         std::cout << "1. Hasil akhir\n";
         std::cout << "2. Per langkah (termasuk simpan citra)\n";
         std::cout << "Masukan pilihan: ";
+        int subpilihan;
         std::cin >> subpilihan;
 
         if (subpilihan == 1 || subpilihan == 2) {
-          std::string path;
-          std::string dir;
           std::cout << "Masukkan nama file gambar (contoh: plat1): ";
+          std::string path;
           std::cin >> path;
 
+          std::string dir;
           if (subpilihan == 2) dir = "./output/" + path + "/";
 
           cv::Mat image = loadImage(path, subpilihan, dir);
@@ -59,17 +36,22 @@ int main() {
           cv::Mat grayImage = grayscale(image, subpilihan, dir);
 
           std::cout << "\nMasukan parameter diameter (bilangan bulat positif, default=9) : ";
+          int d;
           std::cin >> d;
           std::cout << "Masukan parameter sigma color (0-255, default=75) : ";
+          double sigmaColor;
           std::cin >> sigmaColor;
           std::cout << "Masukan parameter sigma space (bilangan bulat positif, default=75) : ";
+          double sigmaSpace;
           std::cin >> sigmaSpace;
           cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan, d, sigmaColor, sigmaSpace, dir);
 
           std::string paramNF = "_" + std::to_string(d) + "-" + std::to_string((int)sigmaColor) + "-" + std::to_string((int)sigmaSpace);
           std::cout << "\nMasukan parameter low threshold (0-255, default=50) : ";
+          double lowThreshold;
           std::cin >> lowThreshold;
           std::cout << "Masukan parameter high threshold (0-255, default=150) : ";
+          double highThreshold;
           std::cin >> highThreshold;
           cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan, lowThreshold, highThreshold, dir, paramNF);
 
