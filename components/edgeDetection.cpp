@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-cv::Mat edgeDetection(const cv::Mat& image, int pilihan, double lowThreshold, double highThreshold) {
+cv::Mat edgeDetection(const cv::Mat& image, int pilihan, double lowThreshold, double highThreshold, std::string dir, std::string params) {
 
   cv::Mat edgeImage;
 
@@ -14,7 +14,12 @@ cv::Mat edgeDetection(const cv::Mat& image, int pilihan, double lowThreshold, do
   cv::Canny(image, edgeImage, lowThreshold, highThreshold);
 
   // Display the edge-detected image if the user chooses option 2
-  if (pilihan == 2) cv::imshow("Edge Detected Image", edgeImage);
+  if (pilihan == 2) {
+    cv::imshow("Edge Detected Image", edgeImage);
+
+    std::string fileName = "3_edgeDetection_lt" + std::to_string((int)lowThreshold) + "_ht" + std::to_string((int)highThreshold);
+    cv::imwrite(dir + fileName + params + ".jpg", edgeImage);
+  } 
 
   return edgeImage;
 }

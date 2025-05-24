@@ -1,7 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include "header.hpp"
 
-cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan) {
+cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan, std::string dir, std::string params) {
   // Vector to store all detected contours
   std::vector<std::vector<cv::Point>> contours;
   
@@ -34,13 +34,18 @@ cv::Mat findContour(const cv::Mat& edge, const cv::Mat& filtered, int pilihan) {
         if (pilihan == 2) {
           cv::rectangle(displayImage, rect, cv::Scalar(0, 0, 255), 2);
           cv::imshow("Highlight Plat", displayImage);
+          cv::imwrite(dir + "4_highlightedPlat" + params + ".jpg", displayImage);
         }
         
         // Extract the Region of Interest (ROI) from the filtered image
         cv::Mat ROI = filtered(rect).clone();
         
         // Display the ROI if it's not empty
-        if (!ROI.empty()) cv::imshow("ROI", ROI);        
+        if (!ROI.empty()) {
+          cv::imshow("ROI", ROI);
+          
+          if (pilihan == 2) cv::imwrite(dir + "5_ROI" + params + ".jpg", ROI);
+        }
         
         return ROI;
       }

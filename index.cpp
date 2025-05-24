@@ -1,11 +1,9 @@
-#include <opencv2/opencv.hpp>
 #include <iostream>
+#include <opencv2/opencv.hpp>
+#include <filesystem>
 #include "./components/header.hpp"
 
-cv::Mat loadImage() {
-  std::string path;
-  std::cout << "Masukkan nama file gambar: ";
-  std::cin >> path;
+cv::Mat loadImage(std::string path, int pilihan, std::string dir) {
   cv::Mat image = cv::imread("./images/" + path + ".jpeg");
   if (image.empty()) {
     std::cerr << "Gagal memuat gambar: " << path << std::endl;
@@ -13,6 +11,11 @@ cv::Mat loadImage() {
   }
 
   cv::imshow("Original Image", image);
+  
+  if (pilihan == 2) {
+    std::filesystem::create_directories(dir);
+    cv::imwrite(dir + "/0_originalImage.jpg", image);
+  } 
   
   return image;
 }
@@ -38,13 +41,22 @@ int main() {
       case 1: {
         std::cout << "\nPilih opsi:\n";
         std::cout << "1. Hasil akhir\n";
-        std::cout << "2. Per langkah\n";
+        std::cout << "2. Per langkah (termasuk simpan citra)\n";
         std::cout << "Masukan pilihan: ";
         std::cin >> subpilihan;
 
         if (subpilihan == 1 || subpilihan == 2) {
-          cv::Mat image = loadImage();
-          cv::Mat grayImage = grayscale(image, subpilihan);
+          std::string path;
+          std::string dir;
+          std::cout << "Masukkan nama file gambar (contoh: plat1): ";
+          std::cin >> path;
+
+          if (subpilihan == 2) dir = "./output/" + path + "/";
+
+          cv::Mat image = loadImage(path, subpilihan, dir);
+          if (image.empty()) continue;
+
+          cv::Mat grayImage = grayscale(image, subpilihan, dir);
 
           std::cout << "\nMasukan parameter diameter (bilangan bulat positif, default=9) : ";
           std::cin >> d;
@@ -52,15 +64,17 @@ int main() {
           std::cin >> sigmaColor;
           std::cout << "Masukan parameter sigma space (bilangan bulat positif, default=75) : ";
           std::cin >> sigmaSpace;
-          cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan, d, sigmaColor, sigmaSpace);
+          cv::Mat filteredImage = noiseFiltering(grayImage, subpilihan, d, sigmaColor, sigmaSpace, dir);
 
+          std::string paramNF = "_" + std::to_string(d) + "-" + std::to_string((int)sigmaColor) + "-" + std::to_string((int)sigmaSpace);
           std::cout << "\nMasukan parameter low threshold (0-255, default=50) : ";
           std::cin >> lowThreshold;
           std::cout << "Masukan parameter high threshold (0-255, default=150) : ";
           std::cin >> highThreshold;
-          cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan, lowThreshold, highThreshold);
+          cv::Mat edgeImage = edgeDetection(filteredImage, subpilihan, lowThreshold, highThreshold, dir, paramNF);
 
-          cv::Mat contours = findContour(edgeImage, filteredImage, subpilihan);
+          std::string paramNF_ED = paramNF + "_" + std::to_string((int)lowThreshold) + "-" + std::to_string((int)highThreshold);
+          cv::Mat contours = findContour(edgeImage, filteredImage, subpilihan, dir, paramNF_ED);
           
           std::cout << "\nTekan ESC pada gambar untuk kembali ke menu utama.\n";
           std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";
