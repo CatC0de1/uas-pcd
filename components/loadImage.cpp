@@ -8,8 +8,6 @@ cv::Mat loadImage(std::string path, int pilihan, std::string dir) {
     std::cerr << "Gagal memuat gambar: " << path << std::endl;
     return cv::Mat();
   }
-
-  cv::imshow("Original Image", image);
   
   if (pilihan == 2) {
     std::filesystem::create_directories(dir);

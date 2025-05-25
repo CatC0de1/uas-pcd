@@ -15,8 +15,6 @@ cv::Mat edgeDetection(const cv::Mat& image, int pilihan, double lowThreshold, do
 
   // Display the edge-detected image if the user chooses option 2
   if (pilihan == 2) {
-    cv::imshow("Edge Detected Image", edgeImage);
-
     std::string fileName = "3_edgeDetection_lt" + std::to_string((int)lowThreshold) + "_ht" + std::to_string((int)highThreshold);
     cv::imwrite(dir + fileName + params + ".jpg", edgeImage);
   } 

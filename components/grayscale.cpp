@@ -11,7 +11,6 @@ cv::Mat grayscale(const cv::Mat& image, int pilihan, std::string dir) {
 
   // Display the grayscale image if the user chooses option 2
   if (pilihan == 2) {
-    cv::imshow("Grayscale Image", grayImage);
     cv::imwrite(dir + "1_grayscale.jpg", grayImage);
   }
 

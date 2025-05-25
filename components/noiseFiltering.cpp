@@ -15,8 +15,6 @@ cv::Mat noiseFiltering(const cv::Mat& image, int pilihan, int d, double sigmaCol
 
   // Display the filtered image if the user chooses option 2
   if (pilihan == 2) {
-    cv::imshow("Filtered Image", filteredImage);
-
     std::string fileName = "2_noiseFiltering_d" + std::to_string(d) + "_sc" + std::to_string((int)sigmaColor) + "_ss" + std::to_string((int)sigmaSpace);
     cv::imwrite(dir + fileName + ".jpg", filteredImage);
   }

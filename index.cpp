@@ -1,7 +1,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "./components/header.hpp"
-#include "./components/params.hpp"
+// #include "./components/params.hpp"
 
 int main() {
 
@@ -58,17 +58,8 @@ int main() {
           std::string paramNF_ED = paramNF + "_" + std::to_string((int)lowThreshold) + "-" + std::to_string((int)highThreshold);
           cv::Mat contours = findContour(edgeImage, grayImage, subpilihan, dir, paramNF_ED);
           
-          std::cout << "\nTekan ESC pada gambar untuk kembali ke menu utama.\n";
-          std::cout << "Seret jendela gambar untuk melihat gambar yang lain.\n";
-          
-          while (true) {
-            int key = cv::waitKey(50);
-            if (key == 27) { // ESC key
-              cv::destroyAllWindows();
-              break;
-            }
-          }
-          
+          showImages(subpilihan, image, grayImage, filteredImage, edgeImage);
+
         } else {
           std::cout << "Pilihan tidak valid. Silakan coba lagi.\n";
         }
